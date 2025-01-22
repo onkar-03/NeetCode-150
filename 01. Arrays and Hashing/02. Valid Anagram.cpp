@@ -94,3 +94,57 @@ public:
     return countS == countT;
   }
 };
+
+/*
+ * Approach - 3: Hashing using Frequency Array
+ * ----------------------------
+ * Time Complexity: O(n)
+ * - Iterating through the strings 's' and 't' to update the frequency array takes O(n),
+ *   where 'n' is the length of the strings.
+ * - Iterating through the frequency array to check for imbalances takes O(k), where 'k' is the size of the frequency array (26 for lowercase English letters, so this is effectively O(1)).
+ * - Total Time Complexity: O(n).
+ * ----------------------------
+ * Space Complexity: O(1)
+ * - The frequency array is of fixed size (26) regardless of the input size, so the space complexity is constant: O(1).
+ */
+
+class Solution
+{
+public:
+  bool isAnagram(string s, string t)
+  {
+    // Step 1: Check if the lengths of the strings are different
+    // If lengths differ, they cannot be anagrams
+    if (s.length() != t.length())
+    {
+      return false; // Return false immediately
+    }
+
+    // Step 2: Create a frequency array to count character occurrences
+    // The array has a size of 26 for lowercase English letters ('a' to 'z')
+    vector<int> count(26, 0);
+
+    // Step 3: Iterate through both strings
+    for (int i = 0; i < s.length(); i++)
+    {
+      // Increment the count for the character in 's'
+      count[s[i] - 'a']++;
+
+      // Decrement the count for the character in 't'
+      count[t[i] - 'a']--;
+    }
+
+    // Step 4: Check the frequency array for imbalances
+    for (int val : count)
+    {
+      // If any value in the array is non-zero, the strings are not anagrams
+      if (val != 0)
+      {
+        return false;
+      }
+    }
+
+    // Step 5: If all values in the frequency array are zero, the strings are anagrams
+    return true;
+  }
+};
